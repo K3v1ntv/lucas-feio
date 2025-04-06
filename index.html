@@ -15,14 +15,17 @@
       align-items: center;
       font-family: sans-serif;
       text-align: center;
-      position: relative; /* para posicionar o efeito de explosão */
+      position: relative;
+      overflow: hidden;
     }
+
     h1 {
       font-size: 4rem;
       color: limegreen;
       text-shadow: 2px 2px 4px black;
       margin: 0;
     }
+
     .btn-feiura {
       width: 100px;
       height: 100px;
@@ -36,15 +39,18 @@
       transition: transform 0.2s;
       margin-top: 20px;
     }
+
     .btn-feiura:hover {
       transform: scale(1.05);
     }
+
     .saida {
       font-size: 1.8rem;
       margin-top: 10px;
       color: white;
       text-shadow: 1px 1px 3px black;
     }
+
     .explosion {
       background-color: yellow;
       border-radius: 50%;
@@ -53,6 +59,7 @@
       pointer-events: none;
       animation: explosionAnim 0.6s ease-out forwards;
     }
+
     @keyframes explosionAnim {
       0% {
         transform: scale(1);
@@ -67,42 +74,43 @@
 </head>
 <body>
   <h1>Lucas feio</h1>
-  
-  <button class="btn-feiura" id="btn-feiura" onclick="ativarFeiura()">Ativar Feiúra</button>
+
+  <button class="btn-feiura" id="btn-feiura" onclick="ativarFeiura()">Feiúra</button>
   <div class="saida" id="saida"></div>
-  
-  <!-- Áudio de explosão -->
+
+  <!-- Som de explosão -->
   <audio id="explosion-sound" preload="auto">
     <source src="https://www.soundjay.com/mechanical/sounds/explosion-01.mp3" type="audio/mpeg">
     Seu navegador não suporta áudio.
   </audio>
-  
+
   <script>
     function ativarFeiura() {
       // Reproduz o som de explosão
       const explosionSound = document.getElementById("explosion-sound");
       explosionSound.currentTime = 0;
-      explosionSound.play();
-      
-      // Cria o efeito de explosão sobre o botão
-      const btn = document.getElementById("btn-feiura");
-      const explosionElem = document.createElement("div");
-      explosionElem.className = "explosion";
-      
-      // Posiciona o efeito sobre o botão
-      const rect = btn.getBoundingClientRect();
-      explosionElem.style.left = rect.left + "px";
-      explosionElem.style.top = rect.top + "px";
-      explosionElem.style.width = rect.width + "px";
-      explosionElem.style.height = rect.height + "px";
-      document.body.appendChild(explosionElem);
-      
-      // Remove o elemento após o término da animação
-      explosionElem.addEventListener("animationend", function() {
-        explosionElem.remove();
+      explosionSound.play().catch((err) => {
+        console.log("Erro ao tocar som:", err);
       });
-      
-      // Exibe o medidor de feiura fixo em 69%
+
+      // Cria efeito de explosão
+      const btn = document.getElementById("btn-feiura");
+      const rect = btn.getBoundingClientRect();
+
+      const explosion = document.createElement("div");
+      explosion.className = "explosion";
+      explosion.style.width = "100px";
+      explosion.style.height = "100px";
+      explosion.style.left = rect.left + window.scrollX + "px";
+      explosion.style.top = rect.top + window.scrollY + "px";
+
+      document.body.appendChild(explosion);
+
+      explosion.addEventListener("animationend", () => {
+        explosion.remove();
+      });
+
+      // Mostra o nível de feiura
       document.getElementById("saida").innerText = "Nível de feiura: 69%";
     }
   </script>
