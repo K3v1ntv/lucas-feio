@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lucas feio</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: url('gato.jpg') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: sans-serif;
+      color: white;
+      text-shadow: 2px 2px 4px black;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin: 0;
+    }
+
+    .botao {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #ff69b4;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 0 10px black;
+      transition: transform 0.2s;
+    }
+
+    .botao:hover {
+      transform: scale(1.1);
+    }
+
+    .saida {
+      margin-top: 15px;
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Lucas feio</h1>
+
+  <button class="botao" onclick="mostrarFeiura()">Ativar Feiômetro</button>
+  <button class="botao" onclick="tocarOink()">Tocar OINK</button>
+  <div class="saida" id="saida"></div>
+
+  <audio id="som-oink" src="https://www.soundjay.com/animal/pig-oink-1.mp3"></audio>
+  <audio autoplay>
+    <source src="https://www.soundjay.com/animal/pig-oink-1.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+
+  <script>
+    function mostrarFeiura() {
+      const feiura = Math.floor(Math.random() * 101);
+      document.getElementById("saida").innerText = `Nível de feiura: ${feiura}%`;
+    }
+
+    function tocarOink() {
+      document.getElementById("som-oink").play();
+    }
+  </script>
+</body>
+</html>
