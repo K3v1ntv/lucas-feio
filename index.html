@@ -15,62 +15,95 @@
       align-items: center;
       font-family: sans-serif;
       text-align: center;
+      position: relative; /* para posicionar o efeito de explosão */
     }
-
     h1 {
       font-size: 4rem;
       color: limegreen;
       text-shadow: 2px 2px 4px black;
       margin: 0;
     }
-
-    .botao {
-      margin: 15px;
-      padding: 10px 25px;
-      font-size: 1.2rem;
+    .btn-feiura {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: red;
       border: none;
-      border-radius: 10px;
-      background-color: hotpink;
       color: white;
+      font-size: 1rem;
       cursor: pointer;
       box-shadow: 0 0 10px black;
       transition: transform 0.2s;
+      margin-top: 20px;
     }
-
-    .botao:hover {
+    .btn-feiura:hover {
       transform: scale(1.05);
     }
-
     .saida {
       font-size: 1.8rem;
       margin-top: 10px;
       color: white;
       text-shadow: 1px 1px 3px black;
     }
+    .explosion {
+      background-color: yellow;
+      border-radius: 50%;
+      position: absolute;
+      z-index: 1000;
+      pointer-events: none;
+      animation: explosionAnim 0.6s ease-out forwards;
+    }
+    @keyframes explosionAnim {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(3);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
   <h1>Lucas feio</h1>
-
-  <button class="botao" onclick="mostrarFeiura()">Ativar Feiômetro</button>
-  <button class="botao" onclick="tocarOink()">Tocar OINK</button>
-
+  
+  <button class="btn-feiura" id="btn-feiura" onclick="ativarFeiura()">Ativar Feiúra</button>
   <div class="saida" id="saida"></div>
-
-  <audio id="som-oink" preload="auto">
-    <source src="https://www.soundjay.com/animal/pig-oink-1.mp3" type="audio/mpeg">
+  
+  <!-- Áudio de explosão -->
+  <audio id="explosion-sound" preload="auto">
+    <source src="https://www.soundjay.com/mechanical/sounds/explosion-01.mp3" type="audio/mpeg">
     Seu navegador não suporta áudio.
   </audio>
-
+  
   <script>
-    function mostrarFeiura() {
+    function ativarFeiura() {
+      // Reproduz o som de explosão
+      const explosionSound = document.getElementById("explosion-sound");
+      explosionSound.currentTime = 0;
+      explosionSound.play();
+      
+      // Cria o efeito de explosão sobre o botão
+      const btn = document.getElementById("btn-feiura");
+      const explosionElem = document.createElement("div");
+      explosionElem.className = "explosion";
+      
+      // Posiciona o efeito sobre o botão
+      const rect = btn.getBoundingClientRect();
+      explosionElem.style.left = rect.left + "px";
+      explosionElem.style.top = rect.top + "px";
+      explosionElem.style.width = rect.width + "px";
+      explosionElem.style.height = rect.height + "px";
+      document.body.appendChild(explosionElem);
+      
+      // Remove o elemento após o término da animação
+      explosionElem.addEventListener("animationend", function() {
+        explosionElem.remove();
+      });
+      
+      // Exibe o medidor de feiura fixo em 69%
       document.getElementById("saida").innerText = "Nível de feiura: 69%";
-    }
-
-    function tocarOink() {
-      const oink = document.getElementById("som-oink");
-      oink.currentTime = 0;
-      oink.play();
     }
   </script>
 </body>
